@@ -4,13 +4,17 @@
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
     <script type="text/javascript" src="angular.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
+    <style>
+      .ng-invalid.ng-dirty
+      {border-color : #FA787E;}
+      .ng-valid.ng-dirty
+      {border-color : #78FA89; }
+    </style>
   </head>
   <body class="container" ng-controller="StoreController as store">
     <div class="product row" ng-repeat = "product in store.products">
       <h3>
-        {{product.name}}
-        <em class="pull-right">{{product.price | currency}}</em>
-        <img ng-src= "{{product.images[0].full}}"/>
+        <product-title></product-title>
       </h3>
       <section ng-init = "tab=1" ng-controller = "PanelController as panel">
         <ul class='nav nav-pills'>
@@ -31,27 +35,28 @@
           <blockquote ng-repeat = "review in product.reviews">
             <b>{{review.stars}}</b>
             {{review.body}}
-            <cite>{{review.author}}</cite>
+            <cite>_{{review.author}}</cite>
           </blockquote>
-          <form name="reviewform">
+          <form name="reviewform" ng-controller = "reviewController as reviewCtrl" ng-submit = "reviewform.$valid && reviewCtrl.addReview(product)" novalidate>
             <blockquote>
-              <strong>{{review.stars}} Stars</strong>
-              {{review.body}}
-              <cite class = "clearfix">_{{review.author}}</cite>
+              <strong>{{reviewCtrl.review.stars}} Stars</strong>
+              {{reviewCtrl.review.body}}
+              <cite class = "clearfix">_{{reviewCtrl.review.author}}</cite>
             </blockquote>
             <h4>Submit a Review</h4>
             <fieldset class = "form-group">
-              <select ng-model="review.stars" class = "form-control" ng-options="stars for stars in [5,4,3,2,1]" title="Stars">
+              <select ng-model="reviewCtrl.review.stars" class = "form-control" ng-options="stars for stars in [5,4,3,2,1]" title="Stars" required>
                 <option value="">Rate the product</option>
               </select>
             </fieldset>
             <fieldset class="form-group">
-                <textarea ng-model = "review.body" class="form-control" placeholder="Write a short review of the product..." title="Review"></textarea>
+                <textarea ng-model = "reviewCtrl.review.body" class="form-control" placeholder="Write a short review of the product..." title="Review" required></textarea >
             </fieldset>
            <fieldset class="form-group">
-             <input class = "form-control" ng-model="review.author" placeholder="jimmyDean@example.org" type="email" title="Email"/>
+             <input class = "form-control" ng-model="reviewCtrl.review.author" placeholder="jimmyDean@example.org" type="email" title="Email" required/>
            </fieldset>
            <fieldset class="form-group">
+             <div> riviewForm is {{reviewform.$valid}}</div>
              <input value="Submit Review" class="btn btn-primary pull-right" type="submit"/>
            </fieldset>
         </form>

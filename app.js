@@ -17,6 +17,22 @@
     };
   });
 
+ app.controller("reviewController", function(){
+   this.review = {};
+   this.addReview = function(product){
+     product.reviews.push (this.review);
+     this.review = {};
+   };
+ });
+
+app.directive('productTitle',function(){
+
+  return{
+    restrict: 'E',
+    templateUrl: 'product-title.html'
+  };
+});
+
   var gems = [
     { name: 'Azurite', price: 2.95 ,
      images : [{full: 'gem.png'}] ,
