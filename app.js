@@ -1,5 +1,5 @@
 (function() {
-  var app = angular.module('gemStore', []);
+  var app = angular.module('gemStore', ['store-products']);
 
   app.controller('StoreController', function(){
     this.products = gems;
@@ -25,13 +25,6 @@
    };
  });
 
-app.directive('productTitle',function(){
-
-  return{
-    restrict: 'E',
-    templateUrl: 'product-title.html'
-  };
-});
 
   var gems = [
     { name: 'Azurite', price: 2.95 ,
